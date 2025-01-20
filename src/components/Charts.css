@@ -1,0 +1,50 @@
+/* Common Styles for All Charts */
+.chart-container {
+    width: 45%; /* Reduce chart width for better layout */
+    max-width: 600px; /* Set a maximum width for larger screens */
+    margin: 20px auto; /* Center the chart and add spacing */
+    padding: 20px;
+    background-color: #ffffff; /* White background for a clean look */
+    border: 2px solid #ddd; /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for elevation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effect */
+  }
+  
+  .chart-container:hover {
+    transform: scale(1.02); /* Slight zoom effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+  
+  /* Button Style for Close Button in ColumnChart */
+  .close-button {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+    background-color: #ff4d4d; /* Red button for close */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .close-button:hover {
+    background-color: #cc0000; /* Darker red on hover */
+  }
+  
+  /* Responsive Design for Small Screens */
+  @media (max-width: 768px) {
+    .chart-container {
+      width: 90%; /* Take up more space on smaller screens */
+      padding: 15px; /* Reduce padding for small screens */
+    }
+  
+    .close-button {
+      width: 100%; /* Full-width button for small screens */
+      text-align: center;
+    }
+  }
+  

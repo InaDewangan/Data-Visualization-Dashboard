@@ -1,0 +1,64 @@
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin: 50px auto;
+    background-color: #ffffff; /* White background */
+    border: 2px solid rgba(0, 123, 255, 0.7);
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    flex: 1; /* Make filters flexible for responsiveness */
+    min-width: 200px; /* Ensure minimum width for each filter group */
+  }
+  
+  .filter-group label {
+    font-weight: bold;
+    color: #004080; /* Blue color for labels */
+    margin-bottom: 5px;
+  }
+  
+  .filter-group select,
+  .filter-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .filter-group select:focus,
+  .filter-group input:focus {
+    border-color: #4caf50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green glow on focus */
+  }
+  
+  .filter-group input[type="date"] {
+    font-family: Arial, sans-serif;
+    color: #333; /* Dark text for date input */
+  }
+  
+  .filters .filter-group select {
+    background-color: #f0f8ff; /* Light blue background for dropdown */
+  }
+  
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column; /* Stack filters on small screens */
+      padding: 15px;
+    }
+  
+    .filter-group {
+      margin: 10px 0; /* Adjust margin for smaller screens */
+      min-width: 100%; /* Full width for each filter group */
+    }
+  }
+  
