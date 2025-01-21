@@ -43,15 +43,15 @@ const Navbar = ({ toggleTheme, isDarkMode }) => {
         try {
             const user = auth.currentUser;
             if (user) {
-               // Delete user's preferences from db.json
-               const preferencesResponse = await fetch(`http://localhost:5000/preferences?userId=${user.uid}`);
-               const preferences = await preferencesResponse.json();
+                // Delete user's preferences from db.json
+                const preferencesResponse = await fetch(`http://localhost:5000/preferences?userId=${user.uid}`);
+                const preferences = await preferencesResponse.json();
 
-               if (preferences.length > 0) {
-                await fetch(`http://localhost:5000/preferences/${preferences[0].id}`, {
-                    method: "DELETE",
-                });
-                console.log("Preferences deleted successfully.");
+                if (preferences.length > 0) {
+                    await fetch(`http://localhost:5000/preferences/${preferences[0].id}`, {
+                        method: "DELETE",
+                    });
+                    console.log("Preferences deleted successfully.");
                 } else {
                     console.warn("Failed to delete preferences.");
                 }
@@ -87,7 +87,10 @@ const Navbar = ({ toggleTheme, isDarkMode }) => {
     return (
         <nav className={`navbar ${isDarkMode ? "dark" : "light"}`}>
             <div className="navbar-content">
-                <span className="welcome-message">Welcome, {userName || "User"}</span>
+                <span className="welcome-message">Welcome to Dashboard, {userName || "User"}</span>
+                <button onClick={() => navigate("/help")} className="help-button">
+                    Help
+                </button>
                 <button className="logout-button" onClick={handleLogout}>
                     Logout
                 </button>

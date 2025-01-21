@@ -23,9 +23,39 @@ const LineChart = ({ data }) => {
     })),
   };
 
+  const options = {
+    responsive: true, // Ensure the chart adjusts based on screen size
+    maintainAspectRatio: false, // Disable fixed aspect ratio to make it truly responsive
+    plugins: {
+      legend: {
+        display: true,
+        position: "top",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Date",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Values",
+        },
+      },
+    },
+  };
+
   return (
-    <div className="chart-container">
-      <Line data={chartData} />
+    <div className="chart-container" style={{
+      width: "90%", // Full width of the parent container
+      maxWidth: "700px", // Optional: Maximum width for the chart
+      height: "40vh", // Set a specific height
+      margin: "20px auto", // Center align the chart
+    }}>
+      <Line data={chartData} options={options}/>
     </div>
   );
 };

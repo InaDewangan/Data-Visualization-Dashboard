@@ -38,7 +38,7 @@
 }
 
 .logout-button,
-.theme-toggle {
+.theme-toggle, .help-button {
   margin-left: 1rem;
   padding: 8px 16px;
   border: none;
@@ -48,19 +48,14 @@
   transition: background-color 0.3s ease;
 }
 
-.logout-button {
-  background-color: #f44336;
-  color: white;
-}
-
-.theme-toggle {
-  background-color: #4caf50;
+.logout-button,.theme-toggle,.help-button {
+  background-color: #e7304fe7;
   color: white;
 }
 
 .logout-button:hover,
-.theme-toggle:hover {
-  background-color: #45a049;
+.theme-toggle:hover,.help-button:hover {
+  background-color: #f36b82;
 }
 
 /* For smaller screens */

@@ -31,17 +31,41 @@ const ColumnChart = ({ feature, data, onClose }) => {
   };
 
   return (
-    <div className="chart-container">
+    <div className="chart-container" style={{
+      width: "90%", // Full width of the parent container
+      maxWidth: "700px", // Optional: Maximum width for the chart
+      height: "40vh", // Set a specific height
+      margin: "40px auto", // Center align the chart
+      position: "relative" /* Required for dynamic resizing in Chart.js */
+    }}>
       <button className="close-button" onClick={onClose}>
         Close
       </button>
       <Bar
         data={chartData}
         options={{
+          maintainAspectRatio: false, // Allows the chart to resize dynamically
+          responsive: true, // Ensures responsiveness
           plugins: {
             title: {
               display: true,
               text: `Time Spent on ${feature} by Date`,
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                font: {
+                  size: window.innerWidth < 480 ? 10 : 12, // Adjust font size for smaller screens
+                },
+              },
+            },
+            y: {
+              ticks: {
+                font: {
+                  size: window.innerWidth < 480 ? 10 : 12, // Adjust font size for smaller screens
+                },
+              },
             },
           },
         }}

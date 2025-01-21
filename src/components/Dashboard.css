@@ -1,4 +1,4 @@
-   Dashboard.css
+   /* Dashboard.css */
 .dashboard {
   font-family: Arial, sans-serif;
   padding: 20px;
@@ -21,16 +21,20 @@
   text-align: center;
 }
 
-.bar-chart, .line-chart, .column-chart {
-  margin: 20px auto;
-  width: 80%;
+.reset-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: linear-gradient(to right, #13b7ee, #e7304f);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.bar-chart canvas, .line-chart canvas, .column-chart canvas {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+.reset-button:hover {
+  background: linear-gradient(to left, #add8e6, #ffc0cb);
+  transform: scale(1.05);
 }
 
-.bar-chart canvas:hover, .line-chart canvas:hover, .column-chart canvas:hover {
-  transform: scale(1.02);
-}

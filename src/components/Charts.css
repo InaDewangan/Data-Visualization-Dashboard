@@ -1,7 +1,7 @@
 /* Common Styles for All Charts */
 .chart-container {
-    width: 45%; /* Reduce chart width for better layout */
-    max-width: 600px; /* Set a maximum width for larger screens */
+    width: 100%; /* Reduce chart width for better layout */
+    max-width: 700px; /* Set a maximum width for larger screens */
     margin: 20px auto; /* Center the chart and add spacing */
     padding: 20px;
     background-color: #ffffff; /* White background for a clean look */

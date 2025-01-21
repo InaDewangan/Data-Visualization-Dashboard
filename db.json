@@ -5,18 +5,6 @@
       "name": "Riya",
       "gender": "Female",
       "email": "riya@gmail.com"
-    },
-    {
-      "id": "T2hnfdtN1DSD3CTQ2i9JQ2PasEC2",
-      "name": "Ganga",
-      "gender": "Female",
-      "email": "ganga@gmail.com"
-    },
-    {
-      "id": "515Kw6CnJoNlQX1o8cICx1aeRaB3",
-      "name": "Ina",
-      "gender": "Female",
-      "email": "ina@gmail.com"
     }
   ],
   "preferences": [
@@ -25,22 +13,6 @@
       "userId": "kT6M7JekywO9vBVlrcJACa98A2y2",
       "age": ">25",
       "gender": "None",
-      "startDate": "",
-      "endDate": ""
-    },
-    {
-      "id": "936b",
-      "userId": "T2hnfdtN1DSD3CTQ2i9JQ2PasEC2",
-      "age": "15-25",
-      "gender": "Female",
-      "startDate": "2022-10-12",
-      "endDate": ""
-    },
-    {
-      "id": "caae",
-      "userId": "515Kw6CnJoNlQX1o8cICx1aeRaB3",
-      "age": "None",
-      "gender": "Male",
       "startDate": "",
       "endDate": ""
     }

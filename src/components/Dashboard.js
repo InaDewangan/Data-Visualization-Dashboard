@@ -38,10 +38,10 @@ const Dashboard = () => {
     } else {
       setLoading(false);
 
-       // Retrieve user's selected feature from localStorage
-       const savedFeature = localStorage.getItem(`selectedFeature_${userId}`);
-       setSelectedFeature(savedFeature || null);
-     }
+      // Retrieve user's selected feature from localStorage
+      const savedFeature = localStorage.getItem(`selectedFeature_${userId}`);
+      setSelectedFeature(savedFeature || null);
+    }
   }, [userId, navigate]);
 
   // Fetch data from JSON server
@@ -51,16 +51,16 @@ const Dashboard = () => {
       .then((data) => setData(data));
   }, []);
 
-// Save selected feature to localStorage whenever it changes
-useEffect(() => {
-  if (selectedFeature) {
-    // Save selected feature to localStorage for this user
-    localStorage.setItem(`selectedFeature_${userId}`, selectedFeature);
-  } else {
-    // Remove the feature if not selected
-    localStorage.removeItem(`selectedFeature_${userId}`);
-  }
-}, [selectedFeature, userId]);
+  // Save selected feature to localStorage whenever it changes
+  useEffect(() => {
+    if (selectedFeature) {
+      // Save selected feature to localStorage for this user
+      localStorage.setItem(`selectedFeature_${userId}`, selectedFeature);
+    } else {
+      // Remove the feature if not selected
+      localStorage.removeItem(`selectedFeature_${userId}`);
+    }
+  }, [selectedFeature, userId]);
 
   // Fetch and save preferences (prevent duplicate calls)
   useEffect(() => {
@@ -173,7 +173,7 @@ useEffect(() => {
         }
       });
 
-       // Clear the saved feature from localStorage
+    // Clear the saved feature from localStorage
     localStorage.removeItem(`selectedFeature_${userId}`);
   };
 
@@ -207,9 +207,9 @@ useEffect(() => {
       <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       <div className="main-content">
         <Filters filters={filters} setFilters={setFilters} />
-        <button onClick={clearPreferences} className="reset-button">
-          Reset Preferences
-        </button>
+      <button onClick={clearPreferences} className="reset-button">
+        Reset Preferences
+      </button>
         <BarChart data={filteredData} onBarClick={(feature) => setSelectedFeature(feature)} />
         <LineChart data={filteredData} />
         {selectedFeature && (
@@ -228,196 +228,3 @@ useEffect(() => {
 export default Dashboard;
 
 
-
-
-
-// import React, { useState, useEffect } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
-// import Navbar from "./Navbar";
-// import Footer from "./Footer";
-// import BarChart from "./BarChart";
-// import LineChart from "./LineChart";
-// import ColumnChart from "./ColumnChart";
-// import Filters from "./Filters";
-// import "./Dashboard.css";
-
-// const Dashboard = () => {
-//   const location = useLocation();
-//   const navigate = useNavigate();
-//   const userId = location.state?.userId;
-
-//   // State variables
-//   const [isDarkMode, setIsDarkMode] = useState(false);
-//   const [filters, setFilters] = useState({
-//     age: "None",
-//     gender: "None",
-//     startDate: "",
-//     endDate: "",
-//   });
-//   const [data, setData] = useState([]);
-//   const [filteredData, setFilteredData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [selectedFeature, setSelectedFeature] = useState(
-//     localStorage.getItem("selectedFeature") || null
-//   );
-
-//   // Toggle theme function
-//   const toggleTheme = () => {
-//     setIsDarkMode((prevMode) => !prevMode);
-//   };
-
-//   // Redirect to login if userId is missing
-//   useEffect(() => {
-//     if (!userId) {
-//       navigate("/auth"); // Redirect to auth page
-//     } else {
-//       setLoading(false);
-//     }
-//   }, [userId, navigate]);
-
-//   // Fetch data from JSON server
-//   useEffect(() => {
-//     fetch("http://localhost:3000/data")
-//       .then((response) => response.json())
-//       .then((data) => setData(data));
-//   }, []);
-
-//   // Save selected feature to localStorage whenever it changes
-//   useEffect(() => {
-//     if (selectedFeature) {
-//       localStorage.setItem("selectedFeature", selectedFeature);
-//     } else {
-//       localStorage.removeItem("selectedFeature");
-//     }
-//   }, [selectedFeature]);
-
-//   // Fetch and save preferences (prevent duplicate calls)
-//   useEffect(() => {
-//     if (!userId) return;
-
-//     let isMounted = true;
-
-//     const fetchAndSavePreferences = async () => {
-//       try {
-//         const response = await fetch(`http://localhost:5000/preferences?userId=${userId}`);
-//         const preferences = await response.json();
-
-//         if (isMounted) {
-//           if (preferences.length > 0) {
-//             setFilters(preferences[0]);
-//           } else {
-//             const defaultPreferences = {
-//               userId: userId,
-//               age: "None",
-//               gender: "None",
-//               startDate: "",
-//               endDate: "",
-//             };
-
-//             const createResponse = await fetch("http://localhost:5000/preferences", {
-//               method: "POST",
-//               headers: { "Content-Type": "application/json" },
-//               body: JSON.stringify(defaultPreferences),
-//             });
-
-//             if (createResponse.ok) {
-//               const createdPreference = await createResponse.json();
-//               setFilters(createdPreference);
-//             }
-//           }
-//         }
-//       } catch (error) {
-//         console.error("Error fetching or saving preferences:", error);
-//       }
-//     };
-
-//     fetchAndSavePreferences();
-
-//     return () => {
-//       isMounted = false;
-//     };
-//   }, [userId]);
-
-//   // Clear preferences to default
-//   const clearPreferences = () => {
-//     if (!userId) return;
-
-//     const defaultPreferences = {
-//       age: "None",
-//       gender: "None",
-//       startDate: "",
-//       endDate: "",
-//     };
-
-//     setFilters(defaultPreferences);
-
-//     fetch(`http://localhost:5000/preferences?userId=${userId}`)
-//       .then((response) => response.json())
-//       .then((preferences) => {
-//         if (preferences.length > 0) {
-//           Promise.all(
-//             preferences.map((pref) =>
-//               fetch(`http://localhost:5000/preferences/${pref.id}`, {
-//                 method: "PUT",
-//                 headers: { "Content-Type": "application/json" },
-//                 body: JSON.stringify({ userId: userId, ...defaultPreferences }),
-//               })
-//             )
-//           );
-//         }
-//       });
-//   };
-
-//   // Apply filters to data
-//   useEffect(() => {
-//     const { age, gender, startDate, endDate } = filters;
-
-//     const filtered = data.filter((item) => {
-//       const [day, month, year] = item.Day.split("/");
-//       const itemDate = new Date(`${year}-${month}-${day}`);
-//       const start = startDate ? new Date(startDate) : null;
-//       const end = endDate ? new Date(endDate) : null;
-
-//       return (
-//         (age === "None" || item.Age === age) &&
-//         (gender === "None" || item.Gender === gender) &&
-//         (!start || itemDate >= start) &&
-//         (!end || itemDate <= end)
-//       );
-//     });
-
-//     setFilteredData(filtered);
-//   }, [filters, data]);
-
-//   if (loading) {
-//     return <p>Loading...</p>;
-//   }
-
-//   return (
-//     <div className={`dashboard ${isDarkMode ? "dark" : "light"}`}>
-//       <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
-//       <div className="main-content">
-//         <h2>Welcome to the Data Visualization Dashboard</h2>
-//         <Filters filters={filters} setFilters={setFilters} />
-//         <button onClick={clearPreferences} className="reset-button">
-//           Reset Preferences
-//         </button>
-//         <BarChart
-//           data={filteredData}
-//           onBarClick={(feature) => setSelectedFeature(feature)}
-//         />
-//         <LineChart data={filteredData} />
-//         {selectedFeature && (
-//           <ColumnChart
-//             feature={selectedFeature}
-//             data={filteredData}
-//             onClose={() => setSelectedFeature(null)}
-//           />
-//         )}
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default Dashboard;

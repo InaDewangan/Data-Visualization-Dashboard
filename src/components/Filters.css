@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    margin: 50px auto;
+    margin: 40px auto;
     background-color: #ffffff; /* White background */
     border: 2px solid rgba(0, 123, 255, 0.7);
     border-radius: 10px; /* Rounded corners */
@@ -62,3 +62,9 @@
     }
   }
   
+
+  @media (max-width:375px) {
+    .filters{
+        margin: 60px auto;
+    }
+  }
