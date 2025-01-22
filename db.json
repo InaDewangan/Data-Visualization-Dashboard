@@ -5,13 +5,49 @@
       "name": "Riya",
       "gender": "Female",
       "email": "riya@gmail.com"
+    },
+    {
+      "id": "Z0mEoITouwZRLdCXlhPwpedqdDu2",
+      "name": "cv",
+      "gender": "Female",
+      "email": "cv@gmail.com"
+    },
+    {
+      "id": "CZx3Po9YbFhjXslDohMCsVMziZ32",
+      "name": "Monika",
+      "gender": "Female",
+      "email": "monika@gmail.com"
     }
   ],
   "preferences": [
     {
       "id": "f2a4",
       "userId": "kT6M7JekywO9vBVlrcJACa98A2y2",
-      "age": ">25",
+      "age": "15-25",
+      "gender": "None",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "a3cb",
+      "userId": "PmWpfW1GCLQImmys8n66Y9A3ExG2",
+      "age": "None",
+      "gender": "None",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "1e6b",
+      "userId": "Z0mEoITouwZRLdCXlhPwpedqdDu2",
+      "age": "15-25",
+      "gender": "Male",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "42b8",
+      "userId": "CZx3Po9YbFhjXslDohMCsVMziZ32",
+      "age": "None",
       "gender": "None",
       "startDate": "",
       "endDate": ""
