@@ -63,7 +63,7 @@
   }
   
 
-  @media (max-width:430px) {
+  @media (max-width:450px) {
     .filters{
         margin: 60px auto;
     }

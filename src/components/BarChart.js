@@ -60,7 +60,7 @@ const BarChart = ({ data, onBarClick }) => {
 
   return (
     <div className="chart-container">
-      <Bar data={chartData} options={options} />
+      <Bar data={chartData} options={options} />;
     </div>
   );
 };

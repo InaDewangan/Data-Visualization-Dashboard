@@ -25,8 +25,8 @@
       "userId": "kT6M7JekywO9vBVlrcJACa98A2y2",
       "age": "15-25",
       "gender": "None",
-      "startDate": "",
-      "endDate": ""
+      "startDate": "2022-01-05",
+      "endDate": "2022-10-10"
     },
     {
       "id": "1e6b",
@@ -39,10 +39,10 @@
     {
       "id": "1ee9",
       "userId": "VmUyczajuDUdalVy374HHxeGVYt1",
-      "age": "15-25",
+      "age": "None",
       "gender": "None",
-      "startDate": "2022-10-10",
-      "endDate": "2022-10-15"
+      "startDate": "",
+      "endDate": ""
     }
   ]
 }
