@@ -1,12 +1,16 @@
 // BarChart.js
 import React from "react";
 import { Bar } from "react-chartjs-2";
+import { Chart } from "chart.js";
 import "chart.js/auto";
-// import "./BarChart.css";
+import zoomPlugin from "chartjs-plugin-zoom";
+
+Chart.register(zoomPlugin); // Register the plugin
 
 const BarChart = ({ data, onBarClick }) => {
-   // Sort data by date (optional for bar charts)
-   const sortedData = data.sort((a, b) => {
+
+  // Sort data by date (optional for bar charts)
+  const sortedData = data.sort((a, b) => {
     const [dayA, monthA, yearA] = a.Day.split("/");
     const [dayB, monthB, yearB] = b.Day.split("/");
     return new Date(`${yearA}-${monthA}-${dayA}`) - new Date(`${yearB}-${monthB}-${dayB}`);
@@ -48,6 +52,30 @@ const BarChart = ({ data, onBarClick }) => {
   };
 
   const options = {
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: "x",
+          threshold: 10, // Smooth panning
+          rangeMin: { x: null },
+          rangeMax: { x: null },
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: "x",
+          limits: {
+            x: { min: 1, max: 3 }, // 1x (zoom out limit), 2x (zoom in limit)
+            y: { min: 1, max: 3 },
+          },
+        },
+      },
+    },
     onClick: (_, elements) => {
       if (elements.length > 0) {
         const index = elements[0].index;
@@ -57,6 +85,7 @@ const BarChart = ({ data, onBarClick }) => {
       }
     },
   };
+  
 
   return (
     <div className="chart-container">

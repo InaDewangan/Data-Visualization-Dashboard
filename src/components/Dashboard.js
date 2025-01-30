@@ -11,7 +11,12 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = location.state?.userId;
+
+  // Retrieve userId from state or URL parameters
+  const userId = location.state?.userId || new URLSearchParams(location.search).get("userId");
+  const sharedFeature = new URLSearchParams(location.search).get("feature");
+  const sharedUserId = new URLSearchParams(location.search).get("sharedUserId"); // Get shared userId
+  const isSharedView = Boolean(sharedFeature); // Identifies shared charts
 
   // State variables
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -24,7 +29,10 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedFeature, setSelectedFeature] = useState(null);
+  const [selectedFeature, setSelectedFeature] = useState(sharedFeature || null);
+  const [shareableLink, setShareableLink] = useState("");
+  const [mainUserName, setMainUserName] = useState(""); // Main user name
+  const [sharedUserName, setSharedUserName] = useState(""); // Shared user name
 
   // Toggle theme function
   const toggleTheme = () => {
@@ -34,15 +42,54 @@ const Dashboard = () => {
   // Redirect to login if userId is missing
   useEffect(() => {
     if (!userId) {
-      navigate("/auth"); // Redirect to auth page
+      // Redirect to Auth Page with shared feature information
+      navigate(`/auth?feature=${sharedFeature || ""}&sharedUserId=${sharedUserId || ""}`); // Include shared feature in query params for redirect
+      return;
     } else {
       setLoading(false);
-
-      // Retrieve user's selected feature from localStorage
       const savedFeature = localStorage.getItem(`selectedFeature_${userId}`);
-      setSelectedFeature(savedFeature || null);
+      if (!selectedFeature && savedFeature !== selectedFeature) {
+        setSelectedFeature(savedFeature);
+      }
     }
-  }, [userId, navigate]);
+  }, [userId, sharedUserId, navigate, sharedFeature, selectedFeature]);
+
+  // Fetch user data (including name) when userId is available
+  // Fetch main user's name
+  useEffect(() => {
+    console.log("Checking user fetch conditions:");
+    console.log("User ID:", userId);
+    console.log("Shared User ID:", sharedUserId);
+    console.log("Is Shared View?", isSharedView);
+
+    if (userId && !isSharedView) {
+      // Fetch main user name
+      console.log("Fetching main user name...");
+      fetch(`http://localhost:5000/users?userId=${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.length > 0) {
+            console.log("Main User Name:", data[0].name);
+            setMainUserName(data[0].name); // Store the main user's name
+          }
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
+    }
+
+    if (isSharedView && sharedUserId) {
+      // Fetch shared user name separately
+      console.log("Fetching shared user name...");
+      fetch(`http://localhost:5000/users?userId=${sharedUserId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.length > 0) {
+            console.log("Shared User Name:", data[0].name);
+            setSharedUserName(data[0].name); // Store the shared user's name separately
+          }
+        })
+        .catch((error) => console.error("Error fetching shared user data:", error));
+    }
+  }, [userId, sharedUserId, isSharedView]);
 
   // Fetch data from JSON server
   useEffect(() => {
@@ -51,22 +98,33 @@ const Dashboard = () => {
       .then((data) => setData(data));
   }, []);
 
+  // Fetch filters when accessing a shared link
+  useEffect(() => {
+    if (isSharedView && sharedUserId) {
+      fetch(`http://localhost:5000/preferences?userId=${sharedUserId}`)
+        .then((response) => response.json())
+        .then((preferences) => {
+          if (preferences.length > 0) {
+            setFilters(preferences[0]); // Apply shared user's filters
+          }
+        })
+        .catch((error) => console.error("Error fetching shared filters:", error));
+    }
+  }, [sharedUserId, isSharedView]);
+
   // Save selected feature to localStorage whenever it changes
   useEffect(() => {
     if (selectedFeature) {
-      // Save selected feature to localStorage for this user
       localStorage.setItem(`selectedFeature_${userId}`, selectedFeature);
     } else {
-      // Remove the feature if not selected
       localStorage.removeItem(`selectedFeature_${userId}`);
     }
   }, [selectedFeature, userId]);
 
-  // Fetch and save preferences (prevent duplicate calls)
+  // Fetch and save user preferences when a regular user logs in
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || isSharedView) return;
 
-    // Flag to track if the request is already processed
     let isMounted = true;
 
     const fetchAndSavePreferences = async () => {
@@ -76,10 +134,8 @@ const Dashboard = () => {
 
         if (isMounted) {
           if (preferences.length > 0) {
-            // If preferences exist, use the first one
             setFilters(preferences[0]);
           } else {
-            // Create a new preference only if none exist
             const defaultPreferences = {
               userId: userId,
               age: "None",
@@ -88,16 +144,17 @@ const Dashboard = () => {
               endDate: "",
             };
 
-            // Create a single POST request
-            const createResponse = await fetch("http://localhost:5000/preferences", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(defaultPreferences),
-            });
+            if (!sharedFeature) {
+              const createResponse = await fetch("http://localhost:5000/preferences", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(defaultPreferences),
+              });
 
-            if (createResponse.ok) {
-              const createdPreference = await createResponse.json();
-              setFilters(createdPreference); // Update filters with newly created preference
+              if (createResponse.ok) {
+                const createdPreference = await createResponse.json();
+                setFilters(createdPreference);
+              }
             }
           }
         }
@@ -109,13 +166,13 @@ const Dashboard = () => {
     fetchAndSavePreferences();
 
     return () => {
-      isMounted = false; // Clean-up to prevent updates after component unmount
+      isMounted = false;
     };
-  }, [userId]);
+  }, [userId, sharedFeature, isSharedView]);
 
   // Save preferences whenever filters change
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || sharedFeature) return;
 
     const savePreferences = async () => {
       try {
@@ -123,15 +180,16 @@ const Dashboard = () => {
         const preferences = await response.json();
 
         if (preferences.length > 0) {
-          // Update all existing preferences for the userId
           await Promise.all(
-            preferences.map((pref) =>
-              fetch(`http://localhost:5000/preferences/${pref.id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...pref, ...filters }),
-              })
-            )
+            preferences
+              .filter(pref => pref.userId === userId)
+              .map((pref) =>
+                fetch(`http://localhost:5000/preferences/${pref.id}`, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ ...pref, ...filters }),
+                })
+              )
           );
         }
       } catch (error) {
@@ -140,7 +198,42 @@ const Dashboard = () => {
     };
 
     savePreferences();
-  }, [filters, userId]);
+  }, [filters, userId, sharedFeature]);
+
+  // Generate a shareable link with userId for filter synchronization
+  const generateShareableLink = () => {
+    if (!selectedFeature || !userId) return;
+    const url = `${window.location.origin}/dashboard?feature=${encodeURIComponent(selectedFeature)}&sharedUserId=${userId}`;
+    setShareableLink(url);
+    alert("Shareable link generated! Click 'Copy' to copy the link.");
+  };
+
+  // close the generated shareable link
+  const closegenerateShareableLink = () => {
+    setShareableLink("");
+  };
+
+  // Apply filters to data
+  useEffect(() => {
+    const { age, gender, startDate, endDate } = filters;
+
+    const filtered = data.filter((item) => {
+      const [day, month, year] = item.Day.split("/");
+      const itemDate = new Date(`${year}-${month}-${day}`);
+      const start = startDate ? new Date(startDate) : null;
+      const end = endDate ? new Date(endDate) : null;
+
+      return (
+        (age === "None" || item.Age === age) &&
+        (gender === "None" || item.Gender === gender) &&
+        (!start || itemDate >= start) &&
+        (!end || itemDate <= end)
+      );
+    });
+
+    setFilteredData(filtered);
+  }, [filters, data]);
+
 
   // Clear preferences to default
   const clearPreferences = () => {
@@ -177,26 +270,11 @@ const Dashboard = () => {
     localStorage.removeItem(`selectedFeature_${userId}`);
   };
 
-  // Apply filters to data
-  useEffect(() => {
-    const { age, gender, startDate, endDate } = filters;
-
-    const filtered = data.filter((item) => {
-      const [day, month, year] = item.Day.split("/");
-      const itemDate = new Date(`${year}-${month}-${day}`);
-      const start = startDate ? new Date(startDate) : null;
-      const end = endDate ? new Date(endDate) : null;
-
-      return (
-        (age === "None" || item.Age === age) &&
-        (gender === "None" || item.Gender === gender) &&
-        (!start || itemDate >= start) &&
-        (!end || itemDate <= end)
-      );
-    });
-
-    setFilteredData(filtered);
-  }, [filters, data]);
+  // Close the selected chart
+  const handleCloseChart = () => {
+    setSelectedFeature(null);
+    localStorage.removeItem(`selectedFeature_${userId}`); // Ensure state and storage are cleared
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -204,19 +282,35 @@ const Dashboard = () => {
 
   return (
     <div className={`dashboard ${isDarkMode ? "dark" : "light"}`}>
-      <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+      {/* Pass the correct user name based on shared view */}
+      <Navbar userName={isSharedView ? sharedUserName || "Shared User" : mainUserName || "Main User"} toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       <div className="main-content">
         <Filters filters={filters} setFilters={setFilters} />
-      <button onClick={clearPreferences} className="reset-button">
-        Reset Preferences
-      </button>
+        <div className="control-btns">
+          {!isSharedView && (<button onClick={clearPreferences} className="reset-button">
+            Reset Preferences
+          </button>
+          )}
+          {!isSharedView && (
+            <button onClick={generateShareableLink} className="share-button">
+              Share Chart
+            </button>
+          )}
+        </div>
+        {shareableLink && (
+          <div className="shareable-link">
+            <input type="text" value={shareableLink} readOnly />
+            <button onClick={() => navigator.clipboard.writeText(shareableLink)}>Copy</button>
+            <button onClick={closegenerateShareableLink}>Close</button>
+          </div>
+        )}
         <BarChart data={filteredData} onBarClick={(feature) => setSelectedFeature(feature)} />
         <LineChart data={filteredData} />
         {selectedFeature && (
           <ColumnChart
             feature={selectedFeature}
             data={filteredData}
-            onClose={() => setSelectedFeature(null)}
+            onClose={handleCloseChart} // Fix: Properly close the chart
           />
         )}
       </div>
@@ -226,5 +320,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-

@@ -63,8 +63,33 @@
   }
   
 
-  @media (max-width:450px) {
+  @media (max-width:500px) {
     .filters{
-        margin: 60px auto;
+        margin: 100px 40px auto;
     }
   }
+
+  @media (max-width: 370px) {
+    .filters {
+      flex-direction: column; /* Stack filters vertically */
+      padding: 10px;
+      margin: 100px 20px auto;
+    }
+  
+    .filter-group {
+      width: 100%; /* Full width for each filter group */
+      min-width: unset; /* Remove minimum width */
+      margin: 5px 0; /* Reduce margin */
+    }
+  
+    .filter-group select,
+    .filter-group input {
+      font-size: 12px; /* Reduce font size for better fit */
+      padding: 8px; /* Adjust padding */
+    }
+  
+    .filter-group label {
+      font-size: 12px; /* Reduce label size */
+    }
+  }
+  

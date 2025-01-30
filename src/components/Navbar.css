@@ -65,3 +65,30 @@
     font-weight: 600;
   }
 }
+
+@media (max-width: 500px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically */
+    padding: 0.5rem; /* Reduce padding */
+    text-align: center; /* Center align text */
+  }
+
+  .navbar-content {
+    flex-direction: column; /* Stack content vertically */
+    width: 100%;
+  }
+
+  .welcome-message {
+    font-size: 18px; /* Reduce font size */
+    margin-bottom: 5px; /* Add space below */
+  }
+
+  .logout-button,
+  .theme-toggle,
+  .help-button {
+    font-size: 12px; /* Reduce button text size */
+    padding: 6px 10px; /* Adjust padding */
+    margin: 4px 0; /* Stack buttons */
+    width: 90%; /* Make buttons more touch-friendly */
+  }
+}

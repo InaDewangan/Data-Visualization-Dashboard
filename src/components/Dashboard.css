@@ -21,7 +21,14 @@
   text-align: center;
 }
 
-.reset-button {
+.control-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.reset-button, .share-button {
   padding: 10px 20px;
   font-size: 16px;
   background: linear-gradient(to right, #13b7ee, #e7304f);
@@ -31,10 +38,65 @@
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s, transform 0.2s;
+  margin-right: 20px;
 }
 
-.reset-button:hover {
+.reset-button:hover, .share-button:hover {
   background: linear-gradient(to left, #add8e6, #ffc0cb);
   transform: scale(1.05);
 }
 
+.shareable-link {
+  margin-top: 20px;
+}
+
+.shareable-link input {
+  width: 30%;
+  padding: 5px;
+  font-size: 15px;
+  border: 2px solid rgba(0, 123, 255, 0.7);
+  border-radius: 5px;
+  color: #004080; 
+  margin-right: 10px;
+}
+
+.shareable-link button {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 8px 15px;
+  background-color: #e7304f; 
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shareable-link button:hover {
+  background-color: #f36b82; /* Darker red on hover */
+}
+
+@media (max-width: 500px) {
+  .reset-button, 
+  .share-button {
+    font-size: 12px; /* Reduce text size */
+    padding: 6px 12px; /* Reduce button size */
+    margin-right: 5px; /* Reduce spacing */
+  }
+
+  .shareable-link input {
+    width: 100%; /* Adjust input width */
+    font-size: 12px;
+    padding: 4px;
+    margin-bottom: 10px;
+  }
+
+  .shareable-link button {
+    font-size: 12px; /* Reduce font size */
+    padding: 5px 10px; /* Reduce button size */
+    margin-right: 3px; /* Reduce space between buttons */
+  }
+}

@@ -17,16 +17,28 @@
       "name": "Ina Dewangan",
       "gender": "Female",
       "email": "dewanganina@gmail.com"
+    },
+    {
+      "id": "KZPrylO4YifyGJ83Bcn86hpIgTy1",
+      "name": "Prachi Suman Sahu",
+      "gender": "Female",
+      "email": "prachi@gmail.com"
+    },
+    {
+      "id": "bFgWCV5x4bVUJjAQ0BP63rUUQJo1",
+      "name": "Samar Dewangan",
+      "gender": "Male",
+      "email": "samar@gmail.com"
     }
   ],
   "preferences": [
     {
-      "id": "f2a4",
       "userId": "kT6M7JekywO9vBVlrcJACa98A2y2",
       "age": "15-25",
-      "gender": "None",
-      "startDate": "2022-01-05",
-      "endDate": "2022-10-10"
+      "gender": "Female",
+      "startDate": "2022-10-20",
+      "endDate": "2022-10-25",
+      "id": "f2a4"
     },
     {
       "id": "1e6b",
@@ -39,10 +51,18 @@
     {
       "id": "1ee9",
       "userId": "VmUyczajuDUdalVy374HHxeGVYt1",
-      "age": "None",
-      "gender": "None",
+      "age": "15-25",
+      "gender": "Male",
       "startDate": "",
       "endDate": ""
+    },
+    {
+      "id": "dbf5",
+      "userId": "KZPrylO4YifyGJ83Bcn86hpIgTy1",
+      "age": "15-25",
+      "gender": "Female",
+      "startDate": "2022-10-12",
+      "endDate": "2022-10-20"
     }
   ]
 }

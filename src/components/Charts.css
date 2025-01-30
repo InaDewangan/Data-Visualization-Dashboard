@@ -9,6 +9,7 @@
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for elevation */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effect */
+    cursor: pointer;
   }
   
   .chart-container:hover {
@@ -17,11 +18,11 @@
   }
   
   /* Button Style for Close Button in ColumnChart */
-  .close-button {
+  .close-button, .resetZoom-btn {
     display: inline-block;
     margin-bottom: 10px;
     padding: 8px 15px;
-    background-color: #ff4d4d; /* Red button for close */
+    background-color: #e7304f; /* Red button for close */
     color: #ffffff; /* White text */
     border: none;
     border-radius: 5px;
@@ -31,8 +32,8 @@
     transition: background-color 0.3s ease;
   }
   
-  .close-button:hover {
-    background-color: #cc0000; /* Darker red on hover */
+  .close-button:hover, .resetZoom-btn:hover {
+    background-color: #f36b82; /* Darker red on hover */
   }
   
   /* Responsive Design for Small Screens */
@@ -40,11 +41,6 @@
     .chart-container {
       width: 90%; /* Take up more space on smaller screens */
       padding: 15px; /* Reduce padding for small screens */
-    }
-  
-    .close-button {
-      width: 100%; /* Full-width button for small screens */
-      text-align: center;
     }
   }
   

@@ -1,7 +1,11 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
+import { Chart } from "chart.js";
 import "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
 import "./Charts.css";
+
+Chart.register(zoomPlugin); // Register the plugin with Chart.js
 
 const ColumnChart = ({ feature, data, onClose }) => {
   // Filter data for the selected feature
@@ -50,6 +54,28 @@ const ColumnChart = ({ feature, data, onClose }) => {
             title: {
               display: true,
               text: `Time Spent on ${feature} by Date`,
+            },
+            zoom: {
+              pan: {
+                enabled: true,
+                mode: "x",
+                threshold: 10, // Smooth panning
+                rangeMin: { x: null },
+                rangeMax: { x: null },
+              },
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true,
+                },
+                mode: "x",
+                limits: {
+                  x: { min: 1, max: 3 }, // 1x (zoom out limit), 2x (zoom in limit)
+                  y: { min: 1, max: 3 },
+                },
+              },
             },
           },
           scales: {
