@@ -16,7 +16,7 @@ const Dashboard = () => {
   const userId = location.state?.userId || new URLSearchParams(location.search).get("userId");
   const sharedFeature = new URLSearchParams(location.search).get("feature");
   const sharedUserId = new URLSearchParams(location.search).get("sharedUserId"); // Get shared userId
-  const isSharedView = Boolean(sharedFeature); // Identifies shared charts
+  const isSharedView = Boolean(sharedUserId); // Fixed: Shared view should be determined by sharedUserId, not feature
 
   // State variables
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -202,12 +202,19 @@ const Dashboard = () => {
 
   // Generate a shareable link with userId for filter synchronization
   const generateShareableLink = () => {
-    if (!selectedFeature || !userId) return;
-    const url = `${window.location.origin}/dashboard?feature=${encodeURIComponent(selectedFeature)}&sharedUserId=${userId}`;
+    if (!userId) return; // Ensure user is logged in before generating a link
+  
+    let url = `${window.location.origin}/dashboard?sharedUserId=${userId}`;
+    
+    // Only include selectedFeature if it exists
+    if (selectedFeature) {
+      url += `&feature=${encodeURIComponent(selectedFeature)}`;
+    }
+  
     setShareableLink(url);
     alert("Shareable link generated! Click 'Copy' to copy the link.");
   };
-
+  
   // close the generated shareable link
   const closegenerateShareableLink = () => {
     setShareableLink("");
@@ -320,3 +327,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+

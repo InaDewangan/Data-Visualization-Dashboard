@@ -103,3 +103,4 @@ const Navbar = ({ toggleTheme, isDarkMode }) => {
 };
 
 export default Navbar;
+

@@ -1,22 +1,10 @@
 {
   "users": [
     {
-      "id": "kT6M7JekywO9vBVlrcJACa98A2y2",
-      "name": "Riya",
-      "gender": "Female",
-      "email": "riya@gmail.com"
-    },
-    {
       "id": "Z0mEoITouwZRLdCXlhPwpedqdDu2",
       "name": "cv",
       "gender": "Female",
       "email": "cv@gmail.com"
-    },
-    {
-      "id": "VmUyczajuDUdalVy374HHxeGVYt1",
-      "name": "Ina Dewangan",
-      "gender": "Female",
-      "email": "dewanganina@gmail.com"
     },
     {
       "id": "KZPrylO4YifyGJ83Bcn86hpIgTy1",
@@ -25,32 +13,46 @@
       "email": "prachi@gmail.com"
     },
     {
-      "id": "bFgWCV5x4bVUJjAQ0BP63rUUQJo1",
-      "name": "Samar Dewangan",
-      "gender": "Male",
-      "email": "samar@gmail.com"
+      "id": "AMhW9sU7RQMIietUYnluMEpcwct1",
+      "name": "Riya",
+      "gender": "Female",
+      "email": "riya@gmail.com"
+    },
+    {
+      "id": "spKj0CpMlDbklOFIjPd1gotL2J82",
+      "name": "Ganga",
+      "gender": "Female",
+      "email": "ganga06@gmail.com"
+    },
+    {
+      "id": "Er6UN8QLiRVXOFSiUfeAClLNGWi1",
+      "name": "Santoshi Dewangan",
+      "gender": "Female",
+      "email": "santoshi@gmail.com"
+    },
+    {
+      "id": "6giL5RcmLAUoJfUyO17P9NTzUro2",
+      "name": "Alka",
+      "gender": "Female",
+      "email": "alka@gmail.com"
+    },
+    {
+      "id": "5Zp2PdIJTQeIIYe6mJjd7OWBu4u1",
+      "name": "Priyanka Sahu",
+      "gender": "Female",
+      "email": "priyanka@gmail.com"
+    },
+    {
+      "id": "Ed5SCEuUj5gUyUUcCCUrXSaB1qp1",
+      "name": "Monika Dewangan",
+      "gender": "Female",
+      "email": "monika03@gmail.com"
     }
   ],
   "preferences": [
     {
-      "userId": "kT6M7JekywO9vBVlrcJACa98A2y2",
-      "age": "15-25",
-      "gender": "Female",
-      "startDate": "2022-10-20",
-      "endDate": "2022-10-25",
-      "id": "f2a4"
-    },
-    {
       "id": "1e6b",
       "userId": "Z0mEoITouwZRLdCXlhPwpedqdDu2",
-      "age": "15-25",
-      "gender": "Male",
-      "startDate": "",
-      "endDate": ""
-    },
-    {
-      "id": "1ee9",
-      "userId": "VmUyczajuDUdalVy374HHxeGVYt1",
       "age": "15-25",
       "gender": "Male",
       "startDate": "",
@@ -63,6 +65,30 @@
       "gender": "Female",
       "startDate": "2022-10-12",
       "endDate": "2022-10-20"
+    },
+    {
+      "id": "313c",
+      "userId": "AMhW9sU7RQMIietUYnluMEpcwct1",
+      "age": "None",
+      "gender": "None",
+      "startDate": "2022-10-25",
+      "endDate": "2022-10-29"
+    },
+    {
+      "id": "00bc",
+      "userId": "AMhW9sU7RQMIietUYnluMEpcwct1",
+      "age": "None",
+      "gender": "None",
+      "startDate": "2022-10-25",
+      "endDate": "2022-10-29"
+    },
+    {
+      "id": "5b5e",
+      "userId": "Er6UN8QLiRVXOFSiUfeAClLNGWi1",
+      "age": "None",
+      "gender": "None",
+      "startDate": "",
+      "endDate": ""
     }
   ]
 }
