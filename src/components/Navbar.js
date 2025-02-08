@@ -1,89 +1,80 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../firebase"; // Firebase auth instance
-import { signOut, onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged
-import { useNavigate } from "react-router-dom";
+import { reauthenticateWithCredential, EmailAuthProvider, signOut } from "firebase/auth";
 import "./Navbar.css";
 
-const Navbar = ({ toggleTheme, isDarkMode }) => {
-    const [userName, setUserName] = useState(""); // State for user's name
+const Navbar = ({ toggleTheme, isDarkMode, userName}) => {
+    console.log("Navbar received userName:", userName);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    // Fetch user name from db.json based on email
-    useEffect(() => {
-        const fetchUserName = async (userEmail) => {
-            try {
-                const response = await fetch(`http://localhost:5000/users?email=${userEmail}`);
-                const data = await response.json();
 
-                if (data.length > 0) {
-                    setUserName(data[0].name); // Set the name from db.json
-                } else {
-                    setUserName("User"); // Fallback if no user is found
-                }
-            } catch (error) {
-                console.error("Error fetching user name:", error);
-                setUserName("User");
-            }
-        };
+    // Handle logout and delete from db and firebase
 
-        // Listen for auth state changes
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                fetchUserName(user.email); // Fetch the user's name on auth state change
-            } else {
-                setUserName(""); // Clear the name if no user is logged in
-            }
+  const handleLogout = async () => {
+    try {
+      const userId = new URLSearchParams(location.search).get("userId"); // Get userId from URL
+      const user = auth.currentUser; // Get the currently logged-in Firebase user
+  
+      console.log("Logout user id:", userId);
+      console.log("Current Firebase Auth User UID:", user?.uid);
+  
+      if (!user) {
+        alert("No user is currently logged in.");
+        return;
+      }
+  
+      // Step 2: Delete user's preferences from db.json
+      const preferencesResponse = await fetch(`http://localhost:5000/preferences?userId=${userId}`);
+      const preferences = await preferencesResponse.json();
+  
+      if (preferences.length > 0) {
+        await fetch(`http://localhost:5000/preferences/${preferences[0].id}`, {
+          method: "DELETE",
         });
-
-        return () => unsubscribe(); // Cleanup the listener
-    }, []);
-
-    // Handle Logout and Delete User from db.json and Firebase
-    const handleLogout = async () => {
-        try {
-            const user = auth.currentUser;
-            if (user) {
-                // Delete user's preferences from db.json
-                const preferencesResponse = await fetch(`http://localhost:5000/preferences?userId=${user.uid}`);
-                const preferences = await preferencesResponse.json();
-
-                if (preferences.length > 0) {
-                    await fetch(`http://localhost:5000/preferences/${preferences[0].id}`, {
-                        method: "DELETE",
-                    });
-                    console.log("Preferences deleted successfully.");
-                } else {
-                    console.warn("Failed to delete preferences.");
-                }
-
-                // Delete user from db.json
-                const dbResponse = await fetch(`http://localhost:5000/users/${user.uid}`, {
-                    method: "DELETE",
-                });
-
-                if (dbResponse.ok) {
-                    try {
-                        // Delete the user from Firebase Authentication
-                        await user.delete(); // Deletes the user record in Firebase
-                        alert("User deleted successfully from Firebase.");
-                    } catch (firebaseError) {
-                        console.error("Error deleting user from Firebase:", firebaseError.message);
-                        alert("Could not delete user from Firebase. Please contact support.");
-                    }
-
-                    // Sign out user from Firebase
-                    await signOut(auth);
-                    alert("Logged out successfully!");
-                    navigate("/auth"); // Redirect to the auth page
-                } else {
-                    alert("Error deleting user from db.");
-                }
-            }
-        } catch (error) {
-            alert("Error logging out: " + error.message);
-        }
-    };
-
+        alert("Preferences deleted successfully.");
+      } else {
+        console.warn("No preferences found for deletion.");
+      }
+  
+      // Step 3: Delete user from db.json
+      const dbResponse = await fetch(`http://localhost:5000/users/${userId}`, { method: "DELETE" });
+  
+      if (!dbResponse.ok) {
+        alert("Error deleting user from db.");
+        return;
+      }
+  
+      // Step 4: Re-authenticate user before deleting from Firebase
+      const password = prompt("Please enter your password to delete your account:");
+      if (!password) {
+        alert("Password is required to delete your account.");
+        return;
+      }
+  
+      try {
+        const credential = EmailAuthProvider.credential(user.email, password);
+        await reauthenticateWithCredential(user, credential); // Re-authenticate user
+  
+        await user.delete(); // Now delete the user from Firebase
+        alert("User deleted successfully from Firebase.");
+      } catch (firebaseError) {
+        console.error("Error deleting user from Firebase:", firebaseError.message);
+        alert("Could not delete user from Firebase. Please check your password or try again later.");
+        return;
+      }
+  
+      // Step 5: Sign out user after successful deletion
+      await signOut(auth);
+      alert("Logged out successfully!");
+      navigate("/auth"); // Redirect to login
+    } catch (error) {
+      alert("Error logging out: " + error.message);
+    }
+  };
+  
+    
     return (
         <nav className={`navbar ${isDarkMode ? "dark" : "light"}`}>
             <div className="navbar-content">

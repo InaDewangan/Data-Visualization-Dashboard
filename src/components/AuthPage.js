@@ -39,6 +39,7 @@ const AuthPage = () => {
           name: name,
           gender: gender,
           email: email,
+          password: password,
         };
 
         // Send data to JSON Server

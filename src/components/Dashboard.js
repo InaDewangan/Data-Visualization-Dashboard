@@ -57,38 +57,32 @@ const Dashboard = () => {
   // Fetch user data (including name) when userId is available
   // Fetch main user's name
   useEffect(() => {
-    console.log("Checking user fetch conditions:");
-    console.log("User ID:", userId);
-    console.log("Shared User ID:", sharedUserId);
-    console.log("Is Shared View?", isSharedView);
-
     if (userId && !isSharedView) {
-      // Fetch main user name
       console.log("Fetching main user name...");
-      fetch(`http://localhost:5000/users?userId=${userId}`)
+      fetch(`http://localhost:5000/users/${userId}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.length > 0) {
-            console.log("Main User Name:", data[0].name);
-            setMainUserName(data[0].name); // Store the main user's name
+          if (data && data.name) { // Ensure data is an object with a name property
+            console.log("Main User Name:", data.name);
+            setMainUserName(data.name);
           }
         })
         .catch((error) => console.error("Error fetching user data:", error));
     }
 
     if (isSharedView && sharedUserId) {
-      // Fetch shared user name separately
       console.log("Fetching shared user name...");
-      fetch(`http://localhost:5000/users?userId=${sharedUserId}`)
+      fetch(`http://localhost:5000/users/${userId}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.length > 0) {
-            console.log("Shared User Name:", data[0].name);
-            setSharedUserName(data[0].name); // Store the shared user's name separately
+          if (data && data.name) { // Ensure data is an object with a name property
+            console.log("Shared User Name:", data.name);
+            setSharedUserName(data.name);
           }
         })
         .catch((error) => console.error("Error fetching shared user data:", error));
     }
+
   }, [userId, sharedUserId, isSharedView]);
 
   // Fetch data from JSON server
@@ -114,12 +108,12 @@ const Dashboard = () => {
 
   // Save selected feature to localStorage whenever it changes
   useEffect(() => {
-    if (selectedFeature) {
+    if (selectedFeature && !isSharedView) {
       localStorage.setItem(`selectedFeature_${userId}`, selectedFeature);
     } else {
       localStorage.removeItem(`selectedFeature_${userId}`);
     }
-  }, [selectedFeature, userId]);
+  }, [selectedFeature, userId, isSharedView]);
 
   // Fetch and save user preferences when a regular user logs in
   useEffect(() => {
@@ -203,18 +197,18 @@ const Dashboard = () => {
   // Generate a shareable link with userId for filter synchronization
   const generateShareableLink = () => {
     if (!userId) return; // Ensure user is logged in before generating a link
-  
+
     let url = `${window.location.origin}/dashboard?sharedUserId=${userId}`;
-    
+
     // Only include selectedFeature if it exists
     if (selectedFeature) {
       url += `&feature=${encodeURIComponent(selectedFeature)}`;
     }
-  
+
     setShareableLink(url);
     alert("Shareable link generated! Click 'Copy' to copy the link.");
   };
-  
+
   // close the generated shareable link
   const closegenerateShareableLink = () => {
     setShareableLink("");
@@ -290,7 +284,14 @@ const Dashboard = () => {
   return (
     <div className={`dashboard ${isDarkMode ? "dark" : "light"}`}>
       {/* Pass the correct user name based on shared view */}
-      <Navbar userName={isSharedView ? sharedUserName || "Shared User" : mainUserName || "Main User"} toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+      {console.log("Main User Name:", mainUserName)}
+      {console.log("Shared User Name:", sharedUserName)}
+      {console.log("Is Shared View:", isSharedView)}
+
+      <Navbar userName={isSharedView ? (sharedUserName || "Shared User") : (mainUserName || "Main User")}
+        toggleTheme={toggleTheme}
+        isDarkMode={isDarkMode}
+      />
       <div className="main-content">
         <Filters filters={filters} setFilters={setFilters} />
         <div className="control-btns">
