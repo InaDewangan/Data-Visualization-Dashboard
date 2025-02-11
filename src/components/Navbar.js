@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../firebase"; // Firebase auth instance
-import { signOut } from "firebase/auth";
+import { EmailAuthProvider, reauthenticateWithCredential, signOut } from "firebase/auth";
 import "./Navbar.css";
 
 const Navbar = ({ toggleTheme, isDarkMode, userName}) => {
@@ -45,8 +45,17 @@ const Navbar = ({ toggleTheme, isDarkMode, userName}) => {
         alert("Error deleting user from db.");
         return;
       }
+
+       // Step 3: Re-authenticate user before deleting from Firebase
+       const password = prompt("Please enter your password to delete your account:");
+       if (!password) {
+           alert("Password is required to delete your account.");
+           return;
+       }
   
       try {
+        const credential = EmailAuthProvider.credential(user.email, password);
+        await reauthenticateWithCredential(user, credential); // Re-authenticate user
         await user.delete(); // Now delete the user from Firebase
         alert("User deleted successfully from Firebase.");
       } catch (firebaseError) {
