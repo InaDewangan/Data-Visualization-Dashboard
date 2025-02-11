@@ -18,10 +18,10 @@ const LineChart = ({ data }) => {
   });
 
   const chartData = {
-    labels: sortedData.map((item) => item.Day), // Filtered dates
+    labels: sortedData.map((item) => item.Day), // Filtered dates (X-axis)
     datasets: ["A", "B", "C", "D", "E", "F"].map((feature) => ({
       label: feature,
-      data: sortedData.map((item) => item[feature]), // Filtered feature data
+      data: sortedData.map((item) => item[feature]), // Filtered feature data (Y-axis: Feature values)
       borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
       )}, ${Math.floor(Math.random() * 255)}, 1)`,

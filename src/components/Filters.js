@@ -2,6 +2,7 @@ import React from "react";
 import "./Filters.css";
 
 const Filters = ({ filters, setFilters }) => {
+  // Update the filters based on user input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));

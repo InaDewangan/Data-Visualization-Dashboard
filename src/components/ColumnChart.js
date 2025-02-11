@@ -10,8 +10,8 @@ Chart.register(zoomPlugin); // Register the plugin with Chart.js
 const ColumnChart = ({ feature, data, onClose }) => {
   // Filter data for the selected feature
   const filteredData = data.map((item) => ({
-    date: item.Day,
-    value: item[feature],
+    date: item.Day, // Date for X-axis (Extracts the date from the data)
+    value: item[feature], // Value for Y-axis (Extracts the value of the selected feature)
   }));
 
   // Sort data by date

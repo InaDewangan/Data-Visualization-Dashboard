@@ -9,7 +9,7 @@ Chart.register(zoomPlugin); // Register the plugin
 
 const BarChart = ({ data, onBarClick }) => {
 
-  // Sort data by date (optional for bar charts)
+  // Sort data by date before calculating totals
   const sortedData = data.sort((a, b) => {
     const [dayA, monthA, yearA] = a.Day.split("/");
     const [dayB, monthB, yearB] = b.Day.split("/");

@@ -1,12 +1,36 @@
 {
   "users": [
     {
-      "id": "RynMHf6xkaYoixAv4KCoDMlowBv1",
+      "id": "fv5fekWcWRffCSTkfv4PHJJn1a42",
+      "name": "Ina",
+      "gender": "Female",
+      "email": "ina@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "SUSib1VDunhYqZEi6Jcf53T3Ig23",
       "name": "Riya",
       "gender": "Female",
       "email": "riya@gmail.com",
       "password": "123456789"
     }
   ],
-  "preferences": []
+  "preferences": [
+    {
+      "id": "7b5e",
+      "userId": "fv5fekWcWRffCSTkfv4PHJJn1a42",
+      "age": "15-25",
+      "gender": "Female",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "c331",
+      "userId": "SUSib1VDunhYqZEi6Jcf53T3Ig23",
+      "age": "None",
+      "gender": "None",
+      "startDate": "2022-10-05",
+      "endDate": "2022-10-07"
+    }
+  ]
 }
