@@ -87,7 +87,7 @@ const Dashboard = () => {
 
   // Fetch data from JSON server
   useEffect(() => {
-    fetch("http://localhost:3000/data")
+    fetch("http://localhost:5000/data")
       .then((response) => response.json())
       .then((data) => setData(data));
   }, []);
