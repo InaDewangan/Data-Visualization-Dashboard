@@ -59,7 +59,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (userId && !isSharedView) {
       console.log("Fetching main user name...");
-      fetch(`http://localhost:5000/users/${userId}`)
+      fetch(`https://data-visualization-dashboard-production.up.railway.app/users/${userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (data && data.name) { // Ensure data is an object with a name property
@@ -72,7 +72,7 @@ const Dashboard = () => {
 
     if (isSharedView && sharedUserId) {
       console.log("Fetching shared user name...");
-      fetch(`http://localhost:5000/users/${userId}`)
+      fetch(`https://data-visualization-dashboard-production.up.railway.app/users/${userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (data && data.name) { // Ensure data is an object with a name property
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
   // Fetch data from JSON server
   useEffect(() => {
-    fetch("http://localhost:5000/data")
+    fetch("https://data-visualization-dashboard-production.up.railway.app/data")
       .then((response) => response.json())
       .then((data) => setData(data));
   }, []);
@@ -95,7 +95,7 @@ const Dashboard = () => {
   // Fetch filters when accessing a shared link
   useEffect(() => {
     if (isSharedView && sharedUserId) {
-      fetch(`http://localhost:5000/preferences?userId=${sharedUserId}`)
+      fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences?userId=${sharedUserId}`)
         .then((response) => response.json())
         .then((preferences) => {
           if (preferences.length > 0) {
@@ -123,7 +123,7 @@ const Dashboard = () => {
 
     const fetchAndSavePreferences = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/preferences?userId=${userId}`);
+        const response = await fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences?userId=${userId}`);
         const preferences = await response.json();
 
         if (isMounted) {
@@ -139,7 +139,7 @@ const Dashboard = () => {
             };
 
             if (!sharedFeature) {
-              const createResponse = await fetch("http://localhost:5000/preferences", {
+              const createResponse = await fetch("https://data-visualization-dashboard-production.up.railway.app/preferences", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(defaultPreferences),
@@ -170,7 +170,7 @@ const Dashboard = () => {
 
     const savePreferences = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/preferences?userId=${userId}`);
+        const response = await fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences?userId=${userId}`);
         const preferences = await response.json();
 
         if (preferences.length > 0) {
@@ -178,7 +178,7 @@ const Dashboard = () => {
             preferences
               .filter(pref => pref.userId === userId)
               .map((pref) =>
-                fetch(`http://localhost:5000/preferences/${pref.id}`, {
+                fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences/${pref.id}`, {
                   method: "PUT",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ ...pref, ...filters }),
@@ -250,14 +250,14 @@ const Dashboard = () => {
     setFilters(defaultPreferences);
     setSelectedFeature(null); // Clear selected feature for this user
 
-    fetch(`http://localhost:5000/preferences?userId=${userId}`)
+    fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences?userId=${userId}`)
       .then((response) => response.json())
       .then((preferences) => {
         if (preferences.length > 0) {
           // Reset all preferences for the user
           Promise.all(
             preferences.map((pref) =>
-              fetch(`http://localhost:5000/preferences/${pref.id}`, {
+              fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences/${pref.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ userId: userId, ...defaultPreferences }),

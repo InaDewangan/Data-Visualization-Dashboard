@@ -43,7 +43,7 @@ const AuthPage = () => {
         };
 
         // Send data to JSON Server
-        await fetch("http://localhost:5000/users", {
+        await fetch("https://data-visualization-dashboard-production.up.railway.app/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

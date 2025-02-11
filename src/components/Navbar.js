@@ -26,11 +26,11 @@ const Navbar = ({ toggleTheme, isDarkMode, userName}) => {
       }
   
       // Step 2: Delete user's preferences from db.json
-      const preferencesResponse = await fetch(`http://localhost:5000/preferences?userId=${userId}`);
+      const preferencesResponse = await fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences?userId=${userId}`);
       const preferences = await preferencesResponse.json();
   
       if (preferences.length > 0) {
-        await fetch(`http://localhost:5000/preferences/${preferences[0].id}`, {
+        await fetch(`https://data-visualization-dashboard-production.up.railway.app/preferences/${preferences[0].id}`, {
           method: "DELETE",
         });
         alert("Preferences deleted successfully.");
@@ -39,7 +39,7 @@ const Navbar = ({ toggleTheme, isDarkMode, userName}) => {
       }
   
       // Step 3: Delete user from db.json
-      const dbResponse = await fetch(`http://localhost:5000/users/${userId}`, { method: "DELETE" });
+      const dbResponse = await fetch(`https://data-visualization-dashboard-production.up.railway.app/users/${userId}`, { method: "DELETE" });
   
       if (!dbResponse.ok) {
         alert("Error deleting user from db.");
